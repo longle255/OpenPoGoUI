@@ -66,7 +66,7 @@ Map.prototype.loadContext = function() {
 
             for (var i = 0; i < this.catches.length; i++) {
                 var pt = this.catches[i];
-                var icon = L.icon({ iconUrl: `./assets/pokemon/${pt.id}.png`, className: "pkmIcon", iconAnchor: [20, 20]});
+                var icon = L.icon({ iconUrl: `./assets/pokemon/${pt.id}.png`, iconSize: [50, 50], iconAnchor: [20, 20]});
                 //var pkm = `${pt.name} (lvl ${pt.lvl}) <br /> Cp:${pt.cp} Iv:${pt.iv}%`;
                 var pkm = `${pt.name} <br /> Cp:${pt.cp} Iv:${pt.iv}%`;
                 L.marker([pt.lat, pt.lng], {icon: icon, zIndexOffset: 100}).bindPopup(pkm).addTo(this.layerCatches);
@@ -82,7 +82,7 @@ Map.prototype.initPath = function() {
 
     if (!this.me) {
         this.map.setView([this.steps[0].lat, this.steps[0].lng], 16);
-        this.me = L.marker([this.steps[0].lat, this.steps[0].lng], { zIndexOffset: 200 }).addTo(this.map).bindPopup(`${this.steps[0].lat},${this.steps[0].lng}`);
+        this.me = L.marker([this.steps[0].lat, this.steps[0].lng], { zIndexOffset: 200 }).addTo(this.map).bindPopup(`${this.steps[0].lat.toFixed(4)},${this.steps[0].lng.toFixed(4)}`);
         $(".loading").hide();
     }
 
@@ -100,7 +100,7 @@ Map.prototype.addToPath = function(pt) {
     if (this.initPath()) {
         var latLng = L.latLng(pt.lat, pt.lng);
         this.path.addLatLng(latLng);
-        this.me.setLatLng(latLng).getPopup().setContent(`${pt.lat},${pt.lng}`);
+        this.me.setLatLng(latLng).getPopup().setContent(`${pt.lat.toFixed(4)},${pt.lng.toFixed(4)}`);
         if (global.config.followPlayer) {
             this.map.panTo(latLng, true);
         }
@@ -116,11 +116,11 @@ Map.prototype.addCatch = function(pt) {
     }
 
     //var pkm = `${pt.name} (lvl ${pt.lvl}) <br /> Cp:${pt.cp} Iv:${pt.iv}%`;
-    var pkm = `${pt.name}<br /> Cp:${pt.cp} Iv:${pt.iv}%`;
+    var pkm = `${pt.name}<br /> CP:${pt.cp} IV:${pt.iv}%`;
 
     this.catches.push(pt);
 
-    var icon = L.icon({ iconUrl: `./assets/pokemon/${pt.id}.png`, className: "pkmIcon", iconAnchor: [25, 25] });
+    var icon = L.icon({ iconUrl: `./assets/pokemon/${pt.id}.png`, iconSize: [50, 50], iconAnchor: [25, 25] });
     L.marker([pt.lat, pt.lng], {icon: icon, zIndexOffset: 100 }).bindPopup(pkm).addTo(this.layerCatches);
 }
 
@@ -132,10 +132,12 @@ Map.prototype.addVisitedPokestop = function(pt) {
     var ps = this.availablePokestops.find(ps => ps.id == pt.id);
     if (ps) {
         ps.marker.setIcon(L.icon({ iconUrl: `./assets/img/pokestop.png`, iconSize: [30, 50]}));
-        ps.marker.bindPopup(pt.name);
+        if (pt.name) ps.marker.bindPopup(pt.name);
     } else {
         var icon = L.icon({ iconUrl: `./assets/img/pokestop.png`, iconSize: [30, 50]});
-        L.marker([pt.lat, pt.lng], {icon: icon, zIndexOffset: 50}).bindPopup(pt.name).addTo(this.layerPokestops);
+        var marker = L.marker([pt.lat, pt.lng], {icon: icon, zIndexOffset: 50});
+        if (pt.name) marker.bindPopup(pt.name);
+        marker.addTo(this.layerPokestops);
     }
 }
 
@@ -216,7 +218,7 @@ Map.prototype.displayEggsList = function(eggs) {
 Map.prototype.displayInventory = function(items) {
     console.log("Inventory list");
     $(".inventory .sort").hide();
-    var count = items.filter(i => i.itemId != 901).reduce((prev, cur) => prev + cur.count, 0);
+    var count = items.filter(i => i.item_id != 901).reduce((prev, cur) => prev + cur.count, 0);
     $(".inventory .numberinfo").text(`${count}/${global.storage.items}`);
     var div = $(".inventory .data")
     div.html(``);
@@ -224,7 +226,7 @@ Map.prototype.displayInventory = function(items) {
         div.append(`
             <div class="items">
                 <span>x${elt.count}</span>
-                <span class="imgspan"><img src="./assets/inventory/${elt.itemId}.png" /></span>
+                <span class="imgspan"><img src="./assets/inventory/${elt.item_id}.png" /></span>
                 <span class="info">${elt.name}</span>
             </div>
         `);
