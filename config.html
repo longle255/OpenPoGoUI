@@ -6,11 +6,14 @@
     <title>Pokemon Bot Visualizer - Config</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="stylesheet" href="assets/css/config.css">
 
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     <script>if (window.module) module = window.module;</script>
 
     <script src="scripts/config.js"></script>
@@ -28,13 +31,14 @@
             appconfig.websocket = $("#txtWebSocket").val();
             appconfig.followPlayer = $("#chkFollowPlayer").prop("checked") || false;
             appconfig.noPopup = $("#chkNoPopup").prop("checked") || false;
+            appconfig.noConfirm = $("#chkNoConfirm").prop("checked") || false;
 
             window.configService.save(appconfig);
             navigateAway();
         }
 
         function navigateAway() {
-            window.location = "index.html";
+            window.location = "/";
         }
 
         $(function() {
@@ -42,6 +46,7 @@
             $("#txtWebSocket").val(appconfig.websocket);
             $("#chkFollowPlayer").prop('checked', appconfig.followPlayer || false);
             $("#chkNoPopup").prop('checked', appconfig.noPopup || false);
+            $("#chkNoConfirm").prop('checked', appconfig.noConfirm || false);
 
             $("#saveBtn").click(saveConfig);
             $("#cancelBtn").click(navigateAway);
@@ -65,9 +70,10 @@
                     </select>
                 </li>
                 <li>
-                    <label>Map options</label>
+                    <label>Options</label>
                     <div><input type="checkbox" id="chkFollowPlayer" class="field-comon" /><span>Follow player on map</span></div>
                     <div><input type="checkbox" id="chkNoPopup" class="field-comon" /><span>Disable popups</span></div>
+                    <div><input type="checkbox" id="chkNoConfirm" class="field-comon" /><span>Don't show confirm dialog when transfer/evolve</span></div>
                 </li>
                 <li>
                     <label>Bot Websocket</label>

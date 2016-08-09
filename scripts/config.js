@@ -17,7 +17,8 @@
         locale: "en",
         websocket: "http://localhost:8000",
         followPlayer: false,
-        noPopup: false
+        noPopup: false,
+        noConfirm: false
     };
 
     var service = {};
@@ -48,15 +49,15 @@
             }
             return config;
         }
-
     } else {
         console.log("Load config from storage");
-        defaultConfig.websocket = "ws://localhost:14252";
 
         service.load = function() {
             var config = Object.assign({}, defaultConfig);
             var json = localStorage.getItem("config");
             if (json) Object.assign(config, JSON.parse(json));
+
+            if (config.websocket.startsWith("ws")) config.websocket = defaultConfig.websocket;
 
             var host = getURLParameter("websocket");
             if (host) {
@@ -73,7 +74,6 @@
             console.log(config);
             localStorage.setItem("config", JSON.stringify(config));
         }
-
     }
 
     window.configService = service;

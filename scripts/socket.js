@@ -27,14 +27,16 @@ function startListenToSocket() {
         $(".loading").text("Waiting to get GPS coordinates from Bot..."); 
     });
     socket.on("bot_initialized", msg => {
-        console.log(msg)
+        //console.log(msg)
         if (Array.isArray(msg)) msg = msg.length > 0 ? msg[0] : {};
         if (msg.username) {
             console.log("Bot Ready.");
             setUserName(msg.username);
-            global.storage = {
-                pokemon: msg.storage.max_pokemon_storage,
-                items: msg.storage.max_item_storage
+            if (msg.storage) {
+                global.storage = {
+                    pokemon: msg.storage.max_pokemon_storage,
+                    items: msg.storage.max_item_storage
+                }
             }
             global.map.addToPath({
                 lat: msg.coordinates[0],
@@ -70,23 +72,34 @@ function startListenToSocket() {
         });
     });
     socket.on('pokemon_caught', msg => {
-        var pokemon = JSON.parse(msg.pokemon);
+        var pokemon = msg.pokemon;
         var pkm = {
             id: pokemon.pokemon_id,
             name: inventory.getPokemonName(pokemon.pokemon_id),
             cp: pokemon.combat_power,
-            iv: pokemon.potential * 100,
-            lvl: "?",
+            iv: (pokemon.potential * 100).toFixed(1),
+            lvl: "",
             lat: 0,
             lng: 0
         };
+        if (msg.position) {
+            pkm.lat = msg.position.latitude;
+            pkm.lng = msg.position.longitude;
+        }
         global.map.addCatch(pkm);
         pokemonToast(pkm, { ball: pokemon.pokeball });
     });
-    socket.on("transfer_pokemon", msg => {
+    socket.on("transfered_pokemon", msg => {
         //console.log(msg)
-        console.log("transfer_pokemon");
-        console.log(msg);
+    });
+    socket.on("pokemon_evolved", msg => {
+        //console.log(msg);
+        var info = {
+            id: msg.evolution,
+            name: inventory.getPokemonName(msg.evolution)
+        };
+        var from = inventory.getPokemonName(msg.pokemon.pokemon_id)
+        pokemonToast(info, { title: `A ${from} Evolved` });
     });
     socket.on("inventory_list", msg => {
         var items = Array.from(Object.keys(msg.inventory).filter(k => k != "count"), item => {
@@ -100,7 +113,7 @@ function startListenToSocket() {
         global.map.displayInventory(items);
     });
     socket.on("pokemon_list", msg => {
-        console.log(msg);
+        //console.log(msg);
         var pkm = Array.from(msg.pokemon, p => {
             var pkmInfo = global.pokemonSettings[p.pokemon_id - 1];
             return {
@@ -128,7 +141,8 @@ function startListenToSocket() {
                 doneDist: msg.km_walked - i.start_km_walked
             }
         });
-        var eggs = Array.from(msg.eggs, i => {
+        var eggsInIncub = Array.from(msg.egg_incubators, i => i.pokemon_id);
+        var eggs = Array.from(msg.eggs.filter(e => eggsInIncub.indexOf(e.unique_id) < 0), i => {
             return {
                 type: "egg",
                 totalDist: i.total_distance,
@@ -157,12 +171,6 @@ function notimplementedyet() {
                 return elt;
             })
             localStorage.setItem("pokemonSettings", JSON.stringify(global.pokemonSettings));
-        } else if (command.indexOf("PokemonEvolveEvent") >= 0) {
-            var pkm = {
-                id: msg.Id,
-                name: inventory.getPokemonName(msg.Id)
-            };
-            pokemonToast(pkm, { title: "A Pokemon Evolved" });
         }
     };
 }

@@ -158,6 +158,7 @@ Map.prototype.addPokestops = function(forts) {
 
 Map.prototype.displayPokemonList = function(all, sortBy) {
     console.log("Pokemon list");
+    global.active = "pokemon";
     this.pokemonList = all || this.pokemonList;
     if (!sortBy) {
         sortBy = localStorage.getItem("sortPokemonBy") || "cp";
@@ -198,9 +199,10 @@ Map.prototype.displayPokemonList = function(all, sortBy) {
 
 Map.prototype.displayEggsList = function(eggs) {
     console.log("Eggs list");
+    global.active = "eggs";
     $(".inventory .sort").hide();
     $(".inventory .numberinfo").text(eggs.length + "/9");
-    var div = $(".inventory .data")
+    var div = $(".inventory .data");
     div.html("");
     eggs.forEach(function(elt) {
         if (elt) {
@@ -213,14 +215,15 @@ Map.prototype.displayEggsList = function(eggs) {
         }
     });
     $(".inventory").show().addClass("active");
-}
+};
 
 Map.prototype.displayInventory = function(items) {
     console.log("Inventory list");
+    global.active = "inventory";
     $(".inventory .sort").hide();
     var count = items.filter(i => i.item_id != 901).reduce((prev, cur) => prev + cur.count, 0);
     $(".inventory .numberinfo").text(`${count}/${global.storage.items}`);
-    var div = $(".inventory .data")
+    var div = $(".inventory .data");
     div.html(``);
     items.forEach(function(elt) {
         div.append(`
@@ -232,4 +235,4 @@ Map.prototype.displayInventory = function(items) {
         `);
     });
     $(".inventory").show().addClass("active");
-}
+};
