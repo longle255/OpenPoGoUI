@@ -110,6 +110,17 @@
             });
         });
 
+        $(".player").on("pogo:player_update", () => {
+            if (global.player) {
+                var player = $(".player");
+                player.find(".playername .value").text(global.user);
+                player.find(".level .value").text(global.player.level);
+                var percent = 100*(global.player.experience - global.player.prev_level_xp)/(global.player.next_level_xp - global.player.prev_level_xp);
+                player.find(".progress .value").css("width", `${percent.toFixed(0)}%`);
+                player.show();
+            }
+        });
+
         if (global.config.websocket) {
             // settings ok, let's go
             global.map = new Map("map");
