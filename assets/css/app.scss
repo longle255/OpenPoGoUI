@@ -207,13 +207,14 @@ body, html, .content {
 }
 
 .pokemon {
-    width: 30%;
-    padding: .5em;
+    box-sizing: border-box;
+    width: percentage(1/4);
+    padding: .7em;
     position: relative;
     display: flex;
     flex-direction: column;
     align-content: center;
-    
+
     .imgspan {
         flex-grow: 1;
         display: flex;
@@ -228,6 +229,11 @@ body, html, .content {
 
     .name {
         font-weight: bold;
+    }
+
+    &:hover {
+        background: rgba(#436a6b, 0.1);
+        color: rgba(#436a6b, 0.3);
     }
 
     span:last-child {
@@ -270,12 +276,11 @@ body, html, .content {
 
 .player {
     color: $black;
-    background-color: $white;
     box-shadow: 0px 0px 5px rgba(0,0,0,0.7);
     border-radius: 4px;
     bottom: 15px;
     left: 15px;
-    position: absolute;
+    position: absolute; 
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -284,11 +289,20 @@ body, html, .content {
     overflow: hidden;
     width: 10%;
     padding: 10px;
+    background-color: $white;
 
     div { margin-top: 5px }
 
     .level { font-weight: bold; }
     .playername { font-size: 0.8em }
+
+    .back {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        opacity: 0.2;
+        max-height: 100%;
+    }
 
     .progress {
         height: 10px;  /* Can be anything */
@@ -306,14 +320,14 @@ body, html, .content {
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
             background-color: #2F96B4;
-            box-shadow: 
+            box-shadow:
                 inset 0 2px 9px  rgba(255,255,255,0.3),
                 inset 0 -2px 6px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
         }
     }
-}   
+}
 
 .refresh {
     position: absolute;
