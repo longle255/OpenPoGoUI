@@ -6,6 +6,8 @@ reset_on_push: false
 author_approval: ignored
 reviewers:
     required: 1
+    members:
+        - nicoschmitt
     teams:
         - maintainers
 
