@@ -16,8 +16,8 @@ httpserver.listen(8080, "0.0.0.0", function() {
 if (process.env.FAKE_BOT_ENABLED == "true") {
     function moreOrLess(pos) {
         pos = [
-            pos[0] + Math.random()*0.002 - 0.002/2,
-            pos[1] + Math.random()*0.002 - 0.002/2
+            pos[0] + 0.002*(Math.random() - 1/2.0),
+            pos[1] + 0.002*(Math.random() - 1/2.0)
         ];
         return pos;
     }
@@ -36,7 +36,7 @@ if (process.env.FAKE_BOT_ENABLED == "true") {
             var ppos = moreOrLess(pos);
             socket.emit("pokemon_caught", {
                 pokemon: {
-                    pokemon_id: Math.floor(Math.random() * 150),
+                    pokemon_id: Math.floor(Math.random() * 150) + 1,
                     combat_power: 1000,
                     potential: 0.8,
                     combat_power_multiplier: 0.5,
@@ -44,7 +44,7 @@ if (process.env.FAKE_BOT_ENABLED == "true") {
                 },
                 position: { latitude: ppos[0], longitude: ppos[1] }
             });
-        }, 10*1000);
+        }, 20*1000);
 
         socket.on('pokemon_list', () => {
             socket.emit("pokemon_list", {

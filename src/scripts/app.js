@@ -25,6 +25,10 @@
     }
 
     $(function() {
+        inventoryService.init(global.config.locale, launchApp);
+    });
+
+    function launchApp() {
         window.ga = window.ga || function() {};
 
         var sortBy = localStorage.getItem("sortPokemonBy") || "cp";
@@ -166,6 +170,6 @@
             // no settings, first time run?
             window.location = "config.html";
         }
-    });
+    }
 
 }());
