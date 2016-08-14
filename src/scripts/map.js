@@ -31,6 +31,7 @@ var Map = function(parentDiv) {
     L.control.layers(baseLayers, overlays).addTo(this.map);
 
     this.path = null;
+    this.route = null;
 
     this.steps = [];
     this.catches = [];
@@ -230,6 +231,16 @@ Map.prototype.updatePokestopsStatus = function() {
             pt.marker.setIcon(L.icon({ iconUrl: `./assets/img/${icon}.png`, iconSize: [40, 40], iconAnchor: [20, 20] }));
         }
     });
+}
+
+Map.prototype.setRoute = function(route) {
+    var points = Array.from(route, pt => L.latLng(pt.lat, pt.lng));
+    if (this.route != null) {
+        this.route.setLatLngs(points);
+    } else {
+        this.route = L.polyline(points, { dashArray: "5, 5", color: 'red', opacity: 0.4 }).addTo(this.layerPath);
+    }
+
 }
 
 Map.prototype.displayPokemonList = function(all, sortBy, eggs) {
