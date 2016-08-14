@@ -7,6 +7,7 @@ var cssnano     = require('gulp-cssnano');
 var babel       = require('gulp-babel');
 var usemin      = require('gulp-usemin');
 var ghPages     = require('gulp-gh-pages');
+var file        = require("gulp-file");
 
 // Watch
 
@@ -64,13 +65,19 @@ gulp.task('build', [ 'clean', 'static', 'styles', 'scripts' ]);
 gulp.task('deploy:staging', ['build'], function() {
   return gulp.src([
       './build/**/*'
-    ]).pipe(gulp.dest('./build')).pipe(ghPages({remoteUrl: "https://github.com/nicoschmitt/openui.git"}));
+    ])
+    .pipe(file('CNAME', "openui.nicontoso.eu"))
+    .pipe(gulp.dest('./build'))
+    .pipe(ghPages({remoteUrl: "https://github.com/nicoschmitt/openui.git"}));
 });
 
 gulp.task('deploy:production', ['build'], function() {
   return gulp.src([
       './build/**/*'
-    ]).pipe(gulp.dest('./build')).pipe(ghPages({remoteUrl: "https://github.com/OpenPoGo/OpenPoGoUI.git"}));
+    ])
+    .pipe(file('CNAME', "openpogoui.nicontoso.eu"))
+    .pipe(gulp.dest('./build'))
+    .pipe(ghPages({remoteUrl: "https://github.com/OpenPoGo/OpenPoGoUI.git"}));
 });
 
 // Default
