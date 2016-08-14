@@ -42,14 +42,14 @@
             }
         });
         $("#eggsLink").click( function() {
-            if ($(".inventory").css("opacity") == "1" && $(".inventory .data .eggs").length) {
+            if ($(".inventory").css("opacity") == "1" && $(".inventory .data .egg").length) {
                 $(".inventory").removeClass("active");
             } else { 
                 global.ws.emit("eggs_list");
             }
         });
         $("#inventoryLink").click( function() {
-            if ($(".inventory").css("opacity") == "1" && $(".inventory .data .items").length) {
+            if ($(".inventory").css("opacity") == "1" && $(".inventory .data .item").length) {
                 $(".inventory").removeClass("active");
             } else {
                 global.ws.emit("inventory_list");

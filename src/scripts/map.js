@@ -302,7 +302,7 @@ Map.prototype.displayEggsList = function(eggs) {
     eggs.forEach(function(elt) {
         if (elt) {
             div.append(`
-                <div class="item">
+                <div class="egg">
                     <span class="imgspan"><img src="./assets/inventory/${elt.type}.png" /></span>
                     <span>${elt.doneDist.toFixed(1)} / ${elt.totalDist.toFixed(1)} km</span>
                 </div>

@@ -178,9 +178,9 @@ function startListenToSocket() {
         global.map.displayPokemonList(pkm, null, msg.eggs_count);
     });
     socket.on("eggs_list", msg => {
+        msg.km_walked = msg.km_walked || 0;
         var incubators = msg.egg_incubators.filter(i => i.target_km_walked != 0 || i.start_km_walked != 0);
-         incubators = Array.from(incubators, i => {
-            msg.km_walked = msg.km_walked || 0;
+        incubators = Array.from(incubators, i => {
             return {
                 type: i.item_id == 901 ? "incubator-unlimited" : "incubator",
                 totalDist: i.target_km_walked - i.start_km_walked,

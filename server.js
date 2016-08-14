@@ -65,6 +65,19 @@ if (process.env.FAKE_BOT_ENABLED == "true") {
             });
         });
 
+        socket.on('eggs_list', () => {
+            socket.emit("eggs_list", {
+                km_walked: 1.0,
+                egg_incubators: [
+                    { item_id: 901, target_km_walked: 2.5, start_km_walked: 0.5, pokemon_id: 1 },
+                    { item_id: 902, target_km_walked: 2.5, start_km_walked: 0.5, pokemon_id: 2 }
+                ],
+                eggs: [
+                    { unique_id: 1234, total_distance: 10, walked_distance: 0 }
+                ]
+            });
+        });
+
         socket.on('transfer_pokemon', (data) => { console.log("transfer: " + data.id); });
         socket.on('evolve_pokemon', (data) => { console.log("evolve: " + data.id); });
         socket.on('drop_items', (data) => { console.log("drop: " + data.id + " - " + data.count); });
