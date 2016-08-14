@@ -22,7 +22,7 @@ gulp.task('watch-styles', function() {
    return gulp.watch('src/assets/css/*.scss', ['dev-styles']);
 });
 
-gulp.task('watch', [ 'watch-styles' ]);
+gulp.task('watch', [ 'dev-styles', 'watch-styles' ]);
 
 // Build
 
@@ -48,7 +48,7 @@ gulp.task('scripts', function() {
                 .pipe(gulp.dest('./build'));
 });
 
-gulp.task('static', function() {
+gulp.task('static', ['clean'], function() {
   return gulp.src(['src/**/*', '!src/scripts/**/*', '!src/assets/css/**/*', '!src/index.html'])
              .pipe(gulp.dest('./build'));
 });
@@ -75,4 +75,4 @@ gulp.task('deploy:production', ['build'], function() {
 
 // Default
 
-gulp.task('default', [ 'build' ]);
+gulp.task('default', [ 'dev-styles', 'build' ]);
