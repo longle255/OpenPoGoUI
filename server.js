@@ -48,12 +48,17 @@ if (process.env.FAKE_BOT_ENABLED == "true") {
 
         socket.on('pokemon_list', () => {
             socket.emit("pokemon_list", {
-                candy: { 10: 50 },
+                candy: { 10: 50, 100: 50 },
                 pokemon: [
                     { 
                         unique_id: "1234", pokemon_id: 10, combat_power: 1000, potential: 0.5,
                         combat_power_multiplier: 0.5, additional_cp_multiplier: 0.3,
-                        attack: 10, defense: 10, hp: 50, max_hp: 50, stamina: 10
+                        attack: 10, defense: 10, hp: 50, max_hp: 50, stamina: 10, favorite: 0
+                    },
+                    { 
+                        unique_id: "456", pokemon_id: 100, combat_power: 1000, potential: 0.5,
+                        combat_power_multiplier: 0.5, additional_cp_multiplier: 0.3,
+                        attack: 10, defense: 10, hp: 50, max_hp: 50, stamina: 10, favorite: 1
                     }
                 ]
             });
@@ -81,5 +86,6 @@ if (process.env.FAKE_BOT_ENABLED == "true") {
         socket.on('transfer_pokemon', (data) => { console.log("transfer: " + data.id); });
         socket.on('evolve_pokemon', (data) => { console.log("evolve: " + data.id); });
         socket.on('drop_items', (data) => { console.log("drop: " + data.id + " - " + data.count); });
+        socket.on('favorite_pokemon', (data) => { console.log("favorite: " + data.id + " - " + data.favorite); });
     });
 }
