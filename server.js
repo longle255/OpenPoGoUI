@@ -52,7 +52,7 @@ if (process.env.FAKE_BOT_ENABLED == "true") {
 
         socket.on('pokemon_list', () => {
             socket.emit("pokemon_list", {
-                candy: { 10: 50, 100: 50 },
+                candy: { 10: 50, 100: 50, 41: 50 },
                 pokemon: [
                     { 
                         unique_id: "1234", pokemon_id: 10, combat_power: 1000, potential: 0.5,
@@ -61,6 +61,11 @@ if (process.env.FAKE_BOT_ENABLED == "true") {
                     },
                     { 
                         unique_id: "456", pokemon_id: 100, combat_power: 1000, potential: 0.5,
+                        combat_power_multiplier: 0.5, additional_cp_multiplier: 0.3,
+                        attack: 10, defense: 10, hp: 50, max_hp: 50, stamina: 10, favorite: 1
+                    },
+                    { 
+                        unique_id: "4567", pokemon_id: 42, combat_power: 1000, potential: 0.5,
                         combat_power_multiplier: 0.5, additional_cp_multiplier: 0.3,
                         attack: 10, defense: 10, hp: 50, max_hp: 50, stamina: 10, favorite: 1
                     }
