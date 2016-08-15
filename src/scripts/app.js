@@ -156,8 +156,12 @@
                         var drop = parseInt(value.count);
                         ga("send", "event", "drop_items", name);
                         global.ws.emit("drop_items", { id: itemId, count: drop });
-                        parent.data("count", count - drop);
-                        parent.parent().find(".count").text(count - drop);
+                        if (count == drop) {
+                            parent.parent().fadeOut();
+                        } else {
+                            parent.data("count", count - drop);
+                            parent.parent().find(".count").text("x" + (count - drop));
+                        }
                     }
                 }
             });
