@@ -349,3 +349,11 @@ Map.prototype.displayInventory = function(items) {
     });
     $(".inventory").show().addClass("active");
 };
+
+// Fix zindex for groups
+
+L.MarkerCluster.prototype.true_initialize = L.MarkerCluster.prototype.initialize;
+L.MarkerCluster.prototype.initialize = function (group, zoom, a, b) {
+    this.true_initialize(group, zoom, a, b);
+    this.setZIndexOffset(200);
+}
