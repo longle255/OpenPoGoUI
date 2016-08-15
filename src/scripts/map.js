@@ -8,7 +8,7 @@ var Map = function(parentDiv) {
     var watercolor = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg');
 
     this.layerPokestops = new L.LayerGroup();
-    this.layerCatches = new L.LayerGroup();
+    this.layerCatches = L.markerClusterGroup({ maxClusterRadius: 30 });
     this.layerPath = new L.LayerGroup();
 
     this.map = L.map(parentDiv, {
