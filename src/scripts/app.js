@@ -133,6 +133,7 @@
             var name = inventoryService.getPokemonName(selected.pokemonId);
             ga("send", "event", "favorite", name);
             $(this).find("img").attr('src', `./assets/img/favorite_${selected.favorite ? 'set' : 'unset'}.png`);
+            parent.find(".transferAction").toggleClass("hide");
             global.ws.emit("favorite_pokemon", { id: id, favorite: selected.favorite });
         });
 
