@@ -1,5 +1,5 @@
-$white: #eee;
-$black: #333;
+@import "variables";
+@import "fixes";
 
 body, html, .content {
     font-family: Roboto;
@@ -12,7 +12,7 @@ body, html, .content {
     -webkit-font-smoothing: antialiased;
 }
 
-body { padding: 10px; }
+//body { padding: 10px; }
 
 .content {
   padding: 0px;
@@ -107,10 +107,6 @@ body { padding: 10px; }
     box-sizing: content-box;
     background-color: rgba(255,255,255,0.95);
     color: #436a6b;
-    width: 60%;
-    min-width: 500px;
-    height: 63%;
-    min-height: 400px;
     position: absolute;
     padding: .5em 0px .5em .5em;
     top: -50%;
@@ -124,6 +120,10 @@ body { padding: 10px; }
     flex-direction: column;
     opacity: 0;
     transition: top 500ms, opacity 500ms;
+
+    width: 60%;
+    height: 63%;
+    @media #{$medium-and-down} { width: 80%; }
 
     &.active {
         top: 50%;
@@ -344,10 +344,3 @@ body { padding: 10px; }
   right: 10px;
 }
 
-#toast-container {
-    top: 10px;
-    right: 10px;
-    .toast {
-        display: block;
-    }
-}

@@ -8,7 +8,7 @@ var Map = function(parentDiv) {
     var watercolor = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg');
 
     this.layerPokestops = new L.LayerGroup();
-    this.layerCatches = new L.LayerGroup();
+    this.layerCatches = L.markerClusterGroup({ maxClusterRadius: 30 });
     this.layerPath = new L.LayerGroup();
 
     this.map = L.map(parentDiv, {
@@ -362,3 +362,11 @@ Map.prototype.displayInventory = function(items) {
     });
     $(".inventory").show().addClass("active");
 };
+
+// Fix zindex for groups
+
+L.MarkerCluster.prototype.true_initialize = L.MarkerCluster.prototype.initialize;
+L.MarkerCluster.prototype.initialize = function (group, zoom, a, b) {
+    this.true_initialize(group, zoom, a, b);
+    this.setZIndexOffset(200);
+}

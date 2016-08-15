@@ -178,6 +178,7 @@
       selected.favorite = !selected.favorite;
       var name = inventoryService.getPokemonName(selected.pokemonId);
       $(this).find("img").attr('src', `./assets/img/favorite_${selected.favorite ? 'set' : 'unset'}.png`);
+            parent.find(".transferAction").toggleClass("hide");
       global.ws.emit('remote:send_request', {
         account: 'DKBot001',
         name: "favorite_pokemon",
@@ -216,8 +217,12 @@
                 count: drop
               }
             });
-            parent.data("count", count - drop);
-            parent.parent().find(".count").text(count - drop);
+                        if (count == drop) {
+                            parent.parent().fadeOut();
+                        } else {
+                            parent.data("count", count - drop);
+                            parent.parent().find(".count").text("x" + (count - drop));
+                        }
           }
         }
       });
