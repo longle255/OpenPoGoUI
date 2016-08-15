@@ -156,6 +156,15 @@ body { padding: 10px; }
         font-size: 80%;
     }
 
+    .move {
+      font-size: 100%;
+      color: black;
+
+    }
+    .move.special{
+      color: red;      
+    }
+
     .info ~ .info {
         font-size: 70%;
     }
